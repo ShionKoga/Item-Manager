@@ -1,17 +1,25 @@
-//
-//  ItemManagerApp.swift
-//  ItemManager
-//
-//  Created by 14inchの史苑 on 2023/01/30.
-//
-
 import SwiftUI
+import FirebaseCore
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
+    ) -> Bool {
+        FirebaseApp.configure()
+        return true
+    }
+}
 
 @main
 struct ItemManagerApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @StateObject var itemModelData: ItemModelData = ItemModelData()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(itemModelData)
         }
     }
 }
