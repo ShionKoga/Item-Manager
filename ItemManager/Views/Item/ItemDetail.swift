@@ -5,13 +5,8 @@ struct ItemDetail: View {
     
     var body: some View {
         VStack {
-            item.image
+            Image("monitor")
             Text(item.description)
-            List {
-                ForEach(0..<item.borrowers.count) { index in
-                    Text(item.borrowers[index])
-                }
-            }
         }
         .navigationTitle(item.name)
         .navigationBarTitleDisplayMode(.inline)

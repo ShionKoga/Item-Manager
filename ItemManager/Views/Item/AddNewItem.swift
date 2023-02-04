@@ -35,6 +35,6 @@ struct AddNewItem: View {
 
 struct AddNewItem_Previews: PreviewProvider {
     static var previews: some View {
-        AddNewItem(item: .constant(Item.blank))
+        AddNewItem(item: .constant(Item(name: "pc monitor", description: "pcMonitor 01")))
     }
 }

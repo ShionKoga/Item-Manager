@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		111E425A298E9F4200D11525 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111E4259298E9F4200D11525 /* AccountView.swift */; };
+		111E425D298EA6FD00D11525 /* CodableFirebase in Frameworks */ = {isa = PBXBuildFile; productRef = 111E425C298EA6FD00D11525 /* CodableFirebase */; };
 		1157EEA8298E8D1100F9FE3F /* AuthenticationModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1157EEA7298E8D1100F9FE3F /* AuthenticationModelData.swift */; };
 		1157EEAB298E909300F9FE3F /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 1157EEAA298E909300F9FE3F /* GoogleSignIn */; };
 		1157EEAD298E909300F9FE3F /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1157EEAC298E909300F9FE3F /* GoogleSignInSwift */; };
@@ -57,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				111E425D298EA6FD00D11525 /* CodableFirebase in Frameworks */,
 				1157EEAB298E909300F9FE3F /* GoogleSignIn in Frameworks */,
 				11736D60298E7EB500D89139 /* FirebaseMessaging in Frameworks */,
 				11736D5E298E7EB500D89139 /* FirebaseDatabaseSwift in Frameworks */,
@@ -180,6 +182,7 @@
 				11736D5F298E7EB500D89139 /* FirebaseMessaging */,
 				1157EEAA298E909300F9FE3F /* GoogleSignIn */,
 				1157EEAC298E909300F9FE3F /* GoogleSignInSwift */,
+				111E425C298EA6FD00D11525 /* CodableFirebase */,
 			);
 			productName = ItemManager;
 			productReference = 116FC14E298774D500B1A2B6 /* ItemManager.app */;
@@ -212,6 +215,7 @@
 			packageReferences = (
 				11736D58298E7EB500D89139 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				1157EEA9298E909300F9FE3F /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				111E425B298EA6FD00D11525 /* XCRemoteSwiftPackageReference "CodableFirebase" */,
 			);
 			productRefGroup = 116FC14F298774D500B1A2B6 /* Products */;
 			projectDirPath = "";
@@ -457,6 +461,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		111E425B298EA6FD00D11525 /* XCRemoteSwiftPackageReference "CodableFirebase" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alickbass/CodableFirebase.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		1157EEA9298E909300F9FE3F /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
@@ -476,6 +488,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		111E425C298EA6FD00D11525 /* CodableFirebase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 111E425B298EA6FD00D11525 /* XCRemoteSwiftPackageReference "CodableFirebase" */;
+			productName = CodableFirebase;
+		};
 		1157EEAA298E909300F9FE3F /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1157EEA9298E909300F9FE3F /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;

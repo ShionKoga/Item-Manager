@@ -3,7 +3,7 @@ import SwiftUI
 struct ItemList: View {
     @EnvironmentObject var itemModelData: ItemModelData
     @State private var showingAddNewItemSheet = false
-    @State private var draftItem = Item.blank
+    @State private var draftItem = Item(name: "", description: "")
     
     var body: some View {
         NavigationView {
@@ -13,7 +13,7 @@ struct ItemList: View {
                         ItemDetail(item: item)
                     } label: {
                         HStack {
-                            item.image
+                            Image("monitor")
                                 .resizable()
                                 .frame(width: 50, height: 50)
                             Text(item.name)
@@ -34,13 +34,13 @@ struct ItemList: View {
                     HStack {
                         Button("cancel") {
                             showingAddNewItemSheet = false
-                            draftItem = Item.blank
+                            draftItem = Item(name: "", description: "")
                         }
                         Spacer()
                         Button("save") {
                             showingAddNewItemSheet = false
                             itemModelData.addNew(item: draftItem)
-                            draftItem = Item.blank
+                            draftItem = Item(name: "", description: "")
                         }
                     }
                     AddNewItem(item: $draftItem)
