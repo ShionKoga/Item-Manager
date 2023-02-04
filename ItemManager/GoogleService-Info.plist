@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>702121648669-pmlcuv3ve95uml9s5gbfb9hio09g8tjk.apps.googleusercontent.com</string>
+	<string>608472639815-19rfa741th15f7j9phubno5l5f47m714.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.702121648669-pmlcuv3ve95uml9s5gbfb9hio09g8tjk</string>
+	<string>com.googleusercontent.apps.608472639815-19rfa741th15f7j9phubno5l5f47m714</string>
 	<key>API_KEY</key>
-	<string>AIzaSyB0C-VVHUQUp98WBMKoxZk_vy5Y-Ba83zQ</string>
+	<string>AIzaSyDGJbHoiV1jBRtkDHzt9TejtbJjtiJhUGw</string>
 	<key>GCM_SENDER_ID</key>
-	<string>702121648669</string>
+	<string>608472639815</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.shionkoga.itemmanager</string>
 	<key>PROJECT_ID</key>
-	<string>item-manager-41fe1</string>
+	<string>item-manager-93816</string>
 	<key>STORAGE_BUCKET</key>
-	<string>item-manager-41fe1.appspot.com</string>
+	<string>item-manager-93816.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:702121648669:ios:19a7b85fce7237f205dcf4</string>
+	<string>1:608472639815:ios:1f0cbd484a1a152c8f8462</string>
 </dict>
 </plist>

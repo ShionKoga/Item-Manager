@@ -1,25 +1,26 @@
 import SwiftUI
 import FirebaseCore
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
-    ) -> Bool {
-        FirebaseApp.configure()
-        return true
-    }
-}
-
 @main
 struct ItemManagerApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject var itemModelData: ItemModelData = ItemModelData()
+    @StateObject var itemModelData = ItemModelData()
+    @StateObject var authModelData = AuthenticationModelData()
+    
+    init() {
+        setupAnthentication()
+    }
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(itemModelData)
+                .environmentObject(authModelData)
         }
+    }
+}
+
+extension ItemManagerApp {
+    private func setupAnthentication() {
+        FirebaseApp.configure()
     }
 }
