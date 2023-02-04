@@ -4,6 +4,7 @@ struct ItemList: View {
     @EnvironmentObject var itemModelData: ItemModelData
     @State private var showingAddNewItemSheet = false
     @State private var draftItem = Item(name: "", description: "")
+    @State private var selectedImage: UIImage? = nil
     
     var body: some View {
         NavigationView {
@@ -39,11 +40,11 @@ struct ItemList: View {
                         Spacer()
                         Button("save") {
                             showingAddNewItemSheet = false
-                            itemModelData.addNew(item: draftItem)
+                            itemModelData.addNew(item: draftItem, image: selectedImage?.pngData())
                             draftItem = Item(name: "", description: "")
                         }
                     }
-                    AddNewItem(item: $draftItem)
+                    AddNewItem(item: $draftItem, selectedImage: $selectedImage)
                 }
                 .padding()
             }

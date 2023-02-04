@@ -2,6 +2,8 @@ import Foundation
 import SwiftUI
 import FirebaseDatabase
 import CodableFirebase
+import FirebaseStorage
+
 
 final class ItemModelData: ObservableObject {
     @Published var items = [Item]()
@@ -20,9 +22,20 @@ final class ItemModelData: ObservableObject {
         }
     }
     
-    func addNew(item: Item) {
+    func addNew(item: Item, image: Data?) {
         items.append(item)
         guard let data = try? FirebaseEncoder().encode(items) else { return }
         ref.setValue(data)
+        
+        guard let imageData = image else {
+            print("image is nil")
+            return
+        }
+        let path = "\(item.id).png"
+        print(path)
+        let storageRef = Storage.storage().reference().child(path)
+        let metaData = StorageMetadata()
+        metaData.contentType = "image/png"
+        let uploadTask = storageRef.putData(imageData, metadata: metaData)
     }
 }
