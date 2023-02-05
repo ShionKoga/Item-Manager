@@ -3,14 +3,15 @@ import FirebaseStorage
 
 struct ItemImage: View {
     var itemId: String
+    var cornerRadius: CGFloat
     @State var image: Image? = nil
     
     var body: some View {
         if image != nil {
             image!.resizable()
         } else {
-            Image("monitor")
-                .resizable()
+            RoundedRectangle(cornerRadius: cornerRadius)
+                .foregroundColor(.gray)
                 .onAppear {
                     getImage()
                 }
@@ -33,6 +34,6 @@ struct ItemImage: View {
 
 struct ItemImage_Previews: PreviewProvider {
     static var previews: some View {
-        ItemImage(itemId: "")
+        ItemImage(itemId: "", cornerRadius: 5)
     }
 }

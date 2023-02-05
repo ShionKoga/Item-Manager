@@ -1,72 +1,100 @@
 import SwiftUI
 
 struct AddNewItem: View {
-    @Binding var itemName: String
-    @Binding var itemDescription: String
-    
+    @Binding var draftItem: Item
     @Binding var selectedImage: UIImage?
+    @Binding var showing: Bool
     @State private var displayImagePicker = false
+    @EnvironmentObject var itemModelData: ItemModelData
     
     var body: some View {
-        VStack {
-            Text("Add new item")
-                .font(.title)
-                .bold()
-                .padding(.top, 10)
-            
-            Divider()
-            
-            HStack {
-                Text("Name").bold()
+        NavigationView {
+            VStack {
+                if let selectedImage = selectedImage {
+                    Image(uiImage: selectedImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxHeight: 300)
+                } else {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .foregroundColor(.gray)
+                            .frame(maxHeight: 300)
+                        
+                        Button {
+                            self.displayImagePicker.toggle()
+                        } label: {
+                            Image(systemName: "camera.on.rectangle.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 100)
+                                .foregroundColor(.black)
+                        }
+                    }
+                }
+                
+                TextField("Name", text: $draftItem.name)
+                    .frame(height: 50)
                 Divider()
-                TextField("Name", text: $itemName)
-            }
-            .frame(height: 50)
-            
-            Divider()
-            
-            HStack {
-                Text("Description").bold()
+                
+                TextField("Description", text: $draftItem.description)
+                    .frame(height: 50)
                 Divider()
-                TextField("Description", text: $itemDescription)
+
+                Spacer()
+                
+                Button {
+                    saveItem()
+                    dismiss()
+                } label: {
+                    Text("Save Item")
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color(.systemIndigo))
+                        .cornerRadius(12)
+                        .padding()
+                }
             }
-            .frame(height: 50)
-            
-            Divider()
-            
-            if selectedImage != nil {
-                Image(uiImage: selectedImage!)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxHeight: 300)
-            } else {
-                Image(systemName: "snow")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxHeight: 300)
+            .navigationTitle("Add new item")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
             }
-            
-            Button {
-                self.displayImagePicker.toggle()
-            } label: {
-                Text("Take Photo")
+            .fullScreenCover(isPresented: $displayImagePicker) {
+                ImagePickerView(isPresented: $displayImagePicker, selectedImage: $selectedImage)
+                    .ignoresSafeArea()
             }
-            
-            Spacer()
+            .padding()
         }
-        .fullScreenCover(isPresented: $displayImagePicker) {
-            ImagePickerView(isPresented: $displayImagePicker, selectedImage: $selectedImage)
-                .ignoresSafeArea()
-        }
+    }
+    
+    private func dismiss() {
+        showing = false
+        draftItem = Item(name: "", description: "")
+    }
+    
+    private func saveItem() {
+        itemModelData.addNew(
+            name: draftItem.name,
+            description: draftItem.description,
+            image: selectedImage?.pngData()
+        )
     }
 }
 
 struct AddNewItem_Previews: PreviewProvider {
     static var previews: some View {
         AddNewItem(
-            itemName: .constant("pc monitor"),
-            itemDescription: .constant("pcMonitor 01"),
-            selectedImage: .constant(nil)
+            draftItem: .constant(Item(name: "", description: "")),
+            selectedImage: .constant(nil),
+            showing: .constant(true)
         )
     }
 }

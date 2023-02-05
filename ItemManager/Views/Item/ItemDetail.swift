@@ -6,10 +6,11 @@ struct ItemDetail: View {
     
     var body: some View {
         VStack {
-            ItemImage(itemId: item.id.uuidString)
+            ItemImage(itemId: item.id.uuidString, cornerRadius: 10)
                 .aspectRatio(contentMode: .fit)
             Text(item.description)
         }
+        .padding()
         .navigationTitle(item.name)
         .navigationBarTitleDisplayMode(.inline)
     }

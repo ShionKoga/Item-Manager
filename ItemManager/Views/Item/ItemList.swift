@@ -3,52 +3,52 @@ import SwiftUI
 struct ItemList: View {
     @EnvironmentObject var itemModelData: ItemModelData
     @State private var showingAddNewItemSheet = false
-    @State private var draftItemName = ""
-    @State private var draftItemDescription = ""
+    @State private var draftItem = Item(name: "", description: "")
     @State private var selectedImage: UIImage? = nil
+    @State private var path = [Item]()
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $path) {
             List {
                 ForEach(itemModelData.items, id: \.id) { item in
-                    NavigationLink {
-                        ItemDetail(item: item)
+                    Button {
+                        path.append(item)
                     } label: {
                         HStack {
-                            ItemImage(itemId: item.id.uuidString)
+                            ItemImage(itemId: item.id.uuidString, cornerRadius: 5)
                                 .frame(width: 50, height: 50)
                             Text(item.name)
                         }
                     }
+                    .foregroundColor(colorScheme == .dark ? .white : .black)
                 }
+            }
+            .navigationDestination(for: Item.self) { item in
+                ItemDetail(item: item)
             }
             .navigationTitle("Items")
             .toolbar {
-                Button {
-                    showingAddNewItemSheet.toggle()
-                } label: {
-                    Label("Add new Item", systemImage: "plus")
-                }
-            }
-            .sheet(isPresented: $showingAddNewItemSheet) {
-                VStack(alignment: .leading) {
+                ToolbarItem(placement: .bottomBar) {
                     HStack {
-                        Button("cancel") {
-                            showingAddNewItemSheet = false
-                            draftItemName = ""
-                            draftItemDescription = ""
+                        Button {
+                            showingAddNewItemSheet.toggle()
+                        } label: {
+                            HStack {
+                                Image(systemName: "plus.circle.fill")
+                                Text("Add New Item")
+                            }
                         }
                         Spacer()
-                        Button("save") {
-                            showingAddNewItemSheet = false
-                            itemModelData.addNew(name: draftItemName, description: draftItemDescription, image: selectedImage?.pngData())
-                            draftItemName = ""
-                            draftItemDescription = ""
-                        }
                     }
-                    AddNewItem(itemName: $draftItemName, itemDescription: $draftItemDescription, selectedImage: $selectedImage)
                 }
-                .padding()
+            }
+            .fullScreenCover(isPresented: $showingAddNewItemSheet) {
+                AddNewItem(
+                    draftItem: $draftItem,
+                    selectedImage: $selectedImage,
+                    showing: $showingAddNewItemSheet
+                )
             }
         }
     }
