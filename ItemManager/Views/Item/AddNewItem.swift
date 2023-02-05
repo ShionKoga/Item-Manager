@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct AddNewItem: View {
-    @Binding var item: Item
+    @Binding var itemName: String
+    @Binding var itemDescription: String
     
     @Binding var selectedImage: UIImage?
     @State private var displayImagePicker = false
@@ -18,7 +19,7 @@ struct AddNewItem: View {
             HStack {
                 Text("Name").bold()
                 Divider()
-                TextField("Name", text: $item.name)
+                TextField("Name", text: $itemName)
             }
             .frame(height: 50)
             
@@ -27,7 +28,7 @@ struct AddNewItem: View {
             HStack {
                 Text("Description").bold()
                 Divider()
-                TextField("Description", text: $item.description)
+                TextField("Description", text: $itemDescription)
             }
             .frame(height: 50)
             
@@ -63,7 +64,8 @@ struct AddNewItem: View {
 struct AddNewItem_Previews: PreviewProvider {
     static var previews: some View {
         AddNewItem(
-            item: .constant(Item(name: "pc monitor", description: "pcMonitor 01")),
+            itemName: .constant("pc monitor"),
+            itemDescription: .constant("pcMonitor 01"),
             selectedImage: .constant(nil)
         )
     }

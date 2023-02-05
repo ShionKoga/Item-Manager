@@ -7,35 +7,65 @@ import FirebaseStorage
 
 final class ItemModelData: ObservableObject {
     @Published var items = [Item]()
-    private var ref: DatabaseReference!
+    private var databaseRef: DatabaseReference!
+    private var storageRef: StorageReference!
     
     init() {
-        self.ref = Database.database().reference().child("items")
-        self.ref.observe(DataEventType.value) { snapshot  in
-            guard let value = snapshot.value else { return }
-            do {
-                let items = try FirebaseDecoder().decode([Item].self, from: value)
+        self.databaseRef = Database.database().reference().child("items")
+        self.storageRef = Storage.storage().reference()
+        self.fetchItems()
+    }
+    
+    private func fetchItems(completion: @escaping () -> Void = {}) {
+        self.databaseRef.getData() { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            guard let value = snapshot?.value else { return }
+            if value is NSNull {
+                self.items = []
+                completion()
+            } else {
+                guard let items = try? FirebaseDecoder().decode([Item].self, from: value) else { return }
+                
                 self.items = items
-            } catch {
-                print("Fatal error: faild to decode items")
+                completion()
             }
         }
     }
     
-    func addNew(item: Item, image: Data?) {
-        items.append(item)
+    private func pushItems(completion: @escaping () -> Void = {}) {
         guard let data = try? FirebaseEncoder().encode(items) else { return }
-        ref.setValue(data)
+        self.databaseRef.setValue(data, withCompletionBlock: { error, ref in
+            completion()
+        })
+    }
+    
+    private func saveImage(path: String, imageData: Data?, onSuccess: @escaping () -> Void) {
+        guard let imageData = imageData else { return }
         
-        guard let imageData = image else {
-            print("image is nil")
-            return
-        }
-        let path = "\(item.id).png"
-        print(path)
-        let storageRef = Storage.storage().reference().child(path)
+        let ref = storageRef.child(path)
         let metaData = StorageMetadata()
         metaData.contentType = "image/png"
-        let uploadTask = storageRef.putData(imageData, metadata: metaData)
+        
+        let uploadTask = ref.putData(imageData, metadata: metaData)
+        uploadTask.observe(.success) { _ in
+            onSuccess()
+        }
+    }
+    
+    func addNew(name: String, description: String, image: Data?) {
+        let item = Item(name: name, description: description)
+        
+        saveImage(path: "\(item.id).png", imageData: image) {
+            self.fetchItems() {
+                self.items.append(item)
+                self.pushItems() {
+                    print("save finished")
+                }
+            }
+        }
     }
 }

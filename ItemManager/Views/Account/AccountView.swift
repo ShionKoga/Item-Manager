@@ -10,7 +10,7 @@ struct AccountView: View {
         NavigationView {
             VStack {
                 HStack {
-                    NetworkImage(url: user?.profile?.imageURL(withDimension: 200))
+                    UserImage(url: user?.profile?.imageURL(withDimension: 200))
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 100, height: 100, alignment: .center)
                         .cornerRadius(8)

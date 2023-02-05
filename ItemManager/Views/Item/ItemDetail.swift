@@ -1,11 +1,13 @@
 import SwiftUI
+import FirebaseStorage
 
 struct ItemDetail: View {
     var item: Item
     
     var body: some View {
         VStack {
-            Image("monitor")
+            ItemImage(itemId: item.id.uuidString)
+                .aspectRatio(contentMode: .fit)
             Text(item.description)
         }
         .navigationTitle(item.name)
@@ -15,6 +17,6 @@ struct ItemDetail: View {
 
 struct ItemDetail_Previews: PreviewProvider {
     static var previews: some View {
-        ItemDetail(item: ItemModelData().items[0])
+        ItemDetail(item: Item(name: "hoge", description: "hogehoge"))
     }
 }

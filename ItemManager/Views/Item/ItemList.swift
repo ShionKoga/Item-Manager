@@ -3,7 +3,8 @@ import SwiftUI
 struct ItemList: View {
     @EnvironmentObject var itemModelData: ItemModelData
     @State private var showingAddNewItemSheet = false
-    @State private var draftItem = Item(name: "", description: "")
+    @State private var draftItemName = ""
+    @State private var draftItemDescription = ""
     @State private var selectedImage: UIImage? = nil
     
     var body: some View {
@@ -14,8 +15,7 @@ struct ItemList: View {
                         ItemDetail(item: item)
                     } label: {
                         HStack {
-                            Image("monitor")
-                                .resizable()
+                            ItemImage(itemId: item.id.uuidString)
                                 .frame(width: 50, height: 50)
                             Text(item.name)
                         }
@@ -35,16 +35,18 @@ struct ItemList: View {
                     HStack {
                         Button("cancel") {
                             showingAddNewItemSheet = false
-                            draftItem = Item(name: "", description: "")
+                            draftItemName = ""
+                            draftItemDescription = ""
                         }
                         Spacer()
                         Button("save") {
                             showingAddNewItemSheet = false
-                            itemModelData.addNew(item: draftItem, image: selectedImage?.pngData())
-                            draftItem = Item(name: "", description: "")
+                            itemModelData.addNew(name: draftItemName, description: draftItemDescription, image: selectedImage?.pngData())
+                            draftItemName = ""
+                            draftItemDescription = ""
                         }
                     }
-                    AddNewItem(item: $draftItem, selectedImage: $selectedImage)
+                    AddNewItem(itemName: $draftItemName, itemDescription: $draftItemDescription, selectedImage: $selectedImage)
                 }
                 .padding()
             }
