@@ -9,21 +9,23 @@ class AuthenticationModelData: ObservableObject {
     
     @Published var state: SignInState = .signedOut
     
-    func signIn() {
+    init() {
         if GIDSignIn.sharedInstance.hasPreviousSignIn() {
             GIDSignIn.sharedInstance.restorePreviousSignIn { [unowned self] user, error in
                 authenticateUser(for: user, with: error)
             }
-        } else {
-            guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-            let configuration = GIDConfiguration(clientID: clientID)
-            
-            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
-            guard let rootViewController = windowScene.windows.first?.rootViewController else { return }
-            
-            GIDSignIn.sharedInstance.signIn(with: configuration, presenting: rootViewController) { [unowned self] user, error in
-                authenticateUser(for: user, with: error)
-            }
+        }
+    }
+    
+    func signIn() {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        let configuration = GIDConfiguration(clientID: clientID)
+        
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+        guard let rootViewController = windowScene.windows.first?.rootViewController else { return }
+        
+        GIDSignIn.sharedInstance.signIn(with: configuration, presenting: rootViewController) { [unowned self] user, error in
+            authenticateUser(for: user, with: error)
         }
     }
     
